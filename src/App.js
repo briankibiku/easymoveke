@@ -20,7 +20,7 @@ import {
 } from '@react-google-maps/api'
 import { useRef, useState } from 'react'
 
-const center = { lat: 48.8584, lng: 2.2945 }
+const center = { lat: -1.292066, lng: 36.821945 }
 
 function App() {
   const { isLoaded } = useJsApiLoader({
@@ -32,6 +32,7 @@ function App() {
   const [directionsResponse, setDirectionsResponse] = useState(null)
   const [distance, setDistance] = useState('')
   const [duration, setDuration] = useState('')
+  const [cost, setCost] = useState('')
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef()
@@ -57,12 +58,14 @@ function App() {
     setDirectionsResponse(results)
     setDistance(results.routes[0].legs[0].distance.text)
     setDuration(results.routes[0].legs[0].duration.text)
+    setCost(parseInt(results.routes[0].legs[0].distance.text) * 140)
   }
 
   function clearRoute() {
     setDirectionsResponse(null)
     setDistance('')
     setDuration('')
+    setCost('')
     originRef.current.value = ''
     destiantionRef.current.value = ''
   }
@@ -82,9 +85,9 @@ function App() {
           zoom={15}
           mapContainerStyle={{ width: '100%', height: '100%' }}
           options={{
-            zoomControl: false,
-            streetViewControl: false,
-            mapTypeControl: false,
+            zoomControl: true,
+            streetViewControl: true,
+            mapTypeControl: true,
             fullscreenControl: false,
           }}
           onLoad={map => setMap(map)}
@@ -104,7 +107,7 @@ function App() {
         minW='container.md'
         zIndex='1'
       >
-        <HStack spacing={2} justifyContent='space-between'>
+        <HStack spacing={4} justifyContent='space-between'>
           <Box flexGrow={1}>
             <Autocomplete>
               <Input type='text' placeholder='Origin' ref={originRef} />
@@ -131,9 +134,10 @@ function App() {
             />
           </ButtonGroup>
         </HStack>
-        <HStack spacing={4} mt={4} justifyContent='space-between'>
+        <HStack spacing={4} mt={4} justifyContent='space-evenly' flexDirection='column'>
           <Text>Distance: {distance} </Text>
           <Text>Duration: {duration} </Text>
+          <Text>Estimate Cost: <b>KSH</b> {cost} </Text>
           <IconButton
             aria-label='center back'
             icon={<FaLocationArrow />}
