@@ -63,7 +63,7 @@ function App() {
     const distance = results.routes[0].legs[0].distance.text.replace(' km', '')
     setCost(parseInt(distance.replace(',', '') * 140))
     setFuelConsumption(parseFloat(distance.replace(',', '') / 15).toFixed(2))
-    setFuelCost(parseFloat(distance.replace(',', '') / 15).toFixed(2) * 177 * 2)
+    setFuelCost(parseFloat(distance.replace(',', '') / 15).toFixed(2) * 164 * 2)
   }
 
   function clearRoute() {
@@ -140,11 +140,9 @@ function App() {
           </ButtonGroup>
         </HStack>
         <HStack spacing={4} mt={4} justifyContent='space-evenly' flexDirection='column'>
-          <Text>Distance: {distance} </Text>
-          <Text>Duration: {duration} </Text>
-          <Text>Estimate Cost: <b>KSH</b> {cost} </Text>
-          <Text>Estimate Consumption: <b>Litres</b> {fuelConsumption}</Text>
-          <Text>Fuel Cost: <b>KSH</b> {fuelCost}</Text>
+          <Text>Distance: {distance} ({duration})</Text>
+          <Text>Estimate Trip Cost: <b>KSH {cost} /=</b> </Text>
+          <Text>Estimate Consumption: {fuelConsumption} ltrs (<b>KSH</b> {fuelCost})</Text>
           <IconButton
             aria-label='center back'
             icon={<FaLocationArrow />}
