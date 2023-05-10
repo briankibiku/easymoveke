@@ -33,6 +33,8 @@ function App() {
   const [distance, setDistance] = useState('')
   const [duration, setDuration] = useState('')
   const [cost, setCost] = useState('')
+  const [fuelConsumption, setFuelConsumption] = useState('')
+  const [fuelCost, setFuelCost] = useState('')
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef()
@@ -58,7 +60,10 @@ function App() {
     setDirectionsResponse(results)
     setDistance(results.routes[0].legs[0].distance.text)
     setDuration(results.routes[0].legs[0].duration.text)
-    setCost(parseInt(results.routes[0].legs[0].distance.text) * 140)
+    const distance = results.routes[0].legs[0].distance.text.replace(' km', '')
+    setCost(parseInt(distance.replace(',', '') * 140))
+    setFuelConsumption(parseFloat(distance.replace(',', '') / 15).toFixed(2))
+    setFuelCost(parseFloat(distance.replace(',', '') / 15).toFixed(2) * 177 * 2)
   }
 
   function clearRoute() {
@@ -138,6 +143,8 @@ function App() {
           <Text>Distance: {distance} </Text>
           <Text>Duration: {duration} </Text>
           <Text>Estimate Cost: <b>KSH</b> {cost} </Text>
+          <Text>Estimate Consumption: <b>Litres</b> {fuelConsumption}</Text>
+          <Text>Fuel Cost: <b>KSH</b> {fuelCost}</Text>
           <IconButton
             aria-label='center back'
             icon={<FaLocationArrow />}
