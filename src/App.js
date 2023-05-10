@@ -63,7 +63,7 @@ function App() {
     const distance = results.routes[0].legs[0].distance.text.replace(' km', '')
     setCost(parseInt(distance.replace(',', '') * 140))
     setFuelConsumption(parseFloat(distance.replace(',', '') / 15).toFixed(2))
-    setFuelCost(parseFloat(distance.replace(',', '') / 15).toFixed(2) * 164 * 2)
+    setFuelCost(parseFloat(distance.replace(',', '') / 15  * 164 * 2).toFixed(2))
   }
 
   function clearRoute() {
